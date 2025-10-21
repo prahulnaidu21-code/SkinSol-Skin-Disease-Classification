@@ -25,7 +25,7 @@ A Flask-based deep learning web app that uses a  EfficientNet to  detect and cla
 - Normalized to [0, 1]
 
 ### **Output**
-- Softmax probabilities for 14 disease classes  
+- Softmax probabilities for 12 disease classes  
 - Displays the top-1 predicted disease and confidence percentage  
 
 ---
