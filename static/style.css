@@ -1,0 +1,88 @@
+:root {
+    --teal: #64c7c1;
+    --navy: #1e2b3c;
+    --skin: #e09b7d;
+}
+
+/* Reset & Layout */
+body {
+    margin: 0;
+    font-family: "Segoe UI", sans-serif;
+    background: linear-gradient(135deg, var(--teal), var(--skin));
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Main container */
+.container {
+    width: 100%;
+    max-width: 900px;
+    height: 95%;
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Header with logo */
+.header {
+    background: var(--navy);
+    color: white;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.header img {
+    height: 50px;
+    margin-right: 10px;
+}
+.header h1 {
+    font-size: 28px;
+    margin: 0;
+    color: var(--teal);
+}
+
+/* Camera area */
+.camera-section {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #f9fafb;
+    position: relative;
+}
+#camera {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Controls */
+.controls {
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    background: #f4f6f7;
+}
+
+button, input[type="submit"] {
+    padding: 15px 25px;
+    font-size: 18px;
+    border-radius: 10px;
+    border: none;
+    background: var(--teal);
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+button:hover, input[type="submit"]:hover {
+    background: #4bb5ac;
+    transform: scale(1.05);
+}

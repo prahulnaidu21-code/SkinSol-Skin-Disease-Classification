@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>SkinSol – Skin Disease Detection</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <style>
+    body {
+      font-family: "Poppins", sans-serif;
+      background: linear-gradient(135deg, #e0f7fa, #f1f8e9);
+      margin: 0;
+      padding: 0;
+      overflow-y: auto; /* ✅ Enables vertical scrolling */
+    }
+
+    .container {
+      max-width: 750px;
+      
+      background: #fff;
+      margin: 40px auto;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      text-align: center;
+      max-height: 800px
+    }
+
+    h1 {
+      color: #00796b;
+      margin-bottom: 10px;
+      font-size: 28px;
+    }
+
+    p {
+      font-size: 16px;
+      color: #555;
+      margin-bottom: 25px;
+    }
+
+    form {
+      margin: 15px 0;
+    }
+
+    input[type="file"] {
+      margin: 10px 0;
+    }
+
+    .btn {
+      background-color: #00796b;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: background 0.3s ease;
+      width: 80%;
+      font-size: 15px;
+    }
+
+    .btn:hover {
+      background-color: #004d40;
+    }
+
+    video, canvas {
+      border-radius: 10px;
+      margin-top: 15px;
+      border: 2px solid #ccc;
+      width: 100%;
+      max-width: 230px;
+      height: auto;
+    }
+
+    hr {
+      border: none;
+      border-top: 2px solid #eee;
+      margin: 25px 0;
+    }
+
+    /* ✅ Make container scroll smoothly on smaller screens */
+    @media (max-height: 900px) {
+      body {
+        overflow-y: scroll;
+      }
+      .container {
+        margin: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🩺 SkinSol</h1>
+    <p>Upload an image or capture from your camera for skin disease detection.</p>
+
+    <!-- Upload Section -->
+    <form method="POST" action="/predict" enctype="multipart/form-data">
+      <input type="file" name="file" accept="image/*" required>
+      <button type="submit" class="btn">📤 Upload & Predict</button>
+    </form>
+
+    <hr>
+
+    <!-- Camera Section -->
+    <div>
+      <video id="video" autoplay></video>
+      <canvas id="canvas" style="display:none;"></canvas>
+    </div>
+
+    <div>
+      <button id="captureBtn" class="btn">📸 Capture</button>
+      <button id="predictBtn" class="btn">🤖 Predict Captured Image</button>
+    </div>
+
+    <form id="cameraForm" method="POST" action="/predict" enctype="multipart/form-data">
+      <input type="hidden" name="captured_image" id="captured_image">
+    </form>
+  </div>
+
+  <script>
+    const video = document.getElementById('video');
+    const canvas = document.getElementById('canvas');
+    const captureBtn = document.getElementById('captureBtn');
+    const predictBtn = document.getElementById('predictBtn');
+    const capturedInput = document.getElementById('captured_image');
+    const cameraForm = document.getElementById('cameraForm');
+
+    // Access camera
+    navigator.mediaDevices.getUserMedia({ video: true })
+      .then(stream => { video.srcObject = stream; })
+      .catch(err => alert('Camera access denied: ' + err));
+
+    // Capture image
+    captureBtn.addEventListener('click', () => {
+      const ctx = canvas.getContext('2d');
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+      canvas.style.display = 'block';
+      window.scrollTo(0, document.body.scrollHeight); // ✅ auto-scroll down to show captured image
+    });
+
+    // Predict captured image
+    predictBtn.addEventListener('click', () => {
+      const dataURL = canvas.toDataURL('image/png');
+      capturedInput.value = dataURL;
+      cameraForm.submit();
+    });
+  </script>
+</body>
+</html>
